@@ -12,3 +12,31 @@ library(haven)
 ```
 
 
+## Problem 1
+
+```{r}
+library(p8105.datasets)
+data("ny_noaa")
+```
+
+```{r}
+head(ny_noaa)
+dim(ny_noaa)
+str(ny_noaa)
+summary(ny_noaa)
+```
+
+The `ny_noaa` dataset includes variables such as `id`, `date`, `prcp`, `snow`, `snwd`, `tmax`, and `tmin`. There are 2595176 observations in the dataset. There are `r nrow(ny_noaa)` rows and `r ncol(ny_noaa)` columns. `id`, `tmax`, and `tmin` are characters. `prcp`, `snow`, and `snwd` are integers.
+
+```{r}
+sapply(ny_noaa, function(x) sum(is.na(x)))
+sum(is.na(ny_noaa))
+```
+
+We can see that `id` and `date` have no missing value, while `prcp` has 145838 missing value, `snow` has 381221, `snwd` has 591786, `tmax` has 1134358, and `tmin` has 1134420 missing value. The overall number of missing value is 3387623.
+Both `tmax` and `tmin` have a lot of missing value, which may lead to issues when analyzing data.
+
+
+
+
+
