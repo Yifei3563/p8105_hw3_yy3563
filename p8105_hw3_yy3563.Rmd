@@ -6,7 +6,8 @@ output: github_document
 ---
 
 ```{r}
-library(tidyverse)
+library(dplyr)
+library(tidyverse) 
 library(patchwork)
 library(haven)
 ```
@@ -37,6 +38,22 @@ We can see that `id` and `date` have no missing value, while `prcp` has 145838 m
 Both `tmax` and `tmin` have a lot of missing value, which may lead to issues when analyzing data.
 
 
+```{r}
+ny_noaa |> 
+  mutate(
+    year = year(date),
+    month = month(date),
+    day = day(date)
+  ) |> 
+  mutate(
+    tmax = as.numeric(as.character(tmax)),
+    tmin = as.numeric(as.character(tmin))
+  ) |> 
+  mutate(
+    tmax = tmax / 10,
+    tmin = tmin / 10
+  )
+```
 
 
 
