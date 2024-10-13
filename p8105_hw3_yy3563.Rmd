@@ -192,3 +192,43 @@ final_df |>
 Total activity tends to decrease with age across all education levels. Higher education levels are associated with less steep declines in activity with age. Women generally have higher total activity levels compared to men in younger and middle-age. 
 
 
+three-panel plot
+
+```{r}
+final_df |> 
+  pivot_longer(
+    cols = min1:min1440,
+    names_to = "time",
+    values_to = "activity"
+  ) |> 
+  mutate(time=parse_number(time)) |> 
+  ggplot(aes(x = time, y = activity)) +
+  geom_point(aes(color = sex)) +
+  geom_smooth() +
+  facet_grid(. ~ education)
+```
+
+
+
+## Problem 3
+
+import data
+
+```{r}
+Jan2020 = 
+  read_csv("data/citibike/Jan 2020 Citi.csv") |> 
+  janitor::clean_names()
+
+Jan2024 = 
+  read_csv("data/citibike/Jan 2024 Citi.csv") |> 
+  janitor::clean_names()
+
+July2020 = 
+  read_csv("data/citibike/July 2020 Citi.csv") |> 
+  janitor::clean_names()
+
+July2024 = 
+  read_csv("data/citibike/July 2024 Citi.csv") |> 
+  janitor::clean_names()
+```
+
