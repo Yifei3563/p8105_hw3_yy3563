@@ -232,3 +232,75 @@ July2024 =
   janitor::clean_names()
 ```
 
+```{r}
+Jan2020$Year <- 2020
+Jan2020$Month <- "Jan"
+Jan2024$Year <- 2024
+Jan2024$Month <- "Jan"
+
+July2020$Year <- 2020
+July2020$Month <- "July"
+July2024$Year <- 2024
+July2024$Month <- "July"
+
+citi_bike <- bind_rows(Jan2020, Jan2024, July2020, July2024)
+```
+
+#### table showing the total number of rides in each combination of year and month separating casual riders and Citi Bike members
+
+```{r}
+citi_bike |> 
+  group_by(member_casual, Year, Month) |> 
+  summarize(rides = n()) |> 
+  knitr::kable()
+```
+
+Based on the table generated above, both casual riders and members have shown significant growth in the number of rides from 2020 to 2024. Both casual riders and members show higher activity in July compared to January for both years, season plays a significant role.
+
+
+#### table showing the 5 most popular starting stations for July 2024
+
+```{r}
+July2024 |> 
+  group_by(start_station_name) |> 
+  summarize(rides = n()) |> 
+  arrange(desc(rides)) |> 
+  head(5) |> 
+  knitr::kable(
+    caption="Top 5 most popular starting stations for July 2024",
+    col.names = c("Start Station Name", "Number of rides")
+  )
+```
+
+
+#### plot to investigate the effects of day of the week, month, and year on median ride duration
+
+```{r}
+citi_bike |> 
+  mutate(
+    Year = factor(Year),
+    Month = factor(Month)
+  ) |> 
+  ggplot(aes(x = Month, y = duration, fill = weekdays)) +
+  geom_boxplot() +
+  facet_grid(. ~ Year)
+```
+
+July in both 2020 and 2024 has much more variability compared to Jun, showing that the warm summer have a greater variety of ride durations. Weekdays show a relatively consistent median ride duration across both years and months.
+
+
+#### figure shows the impact of month, membership status, and bike type on the distribution of ride duration in 2024
+
+```{r}
+citi_bike |> 
+  filter(Year == "2024") |> 
+  mutate(
+    Year = factor(Year),
+    Month = factor(Month)
+  ) |> 
+  ggplot(aes(x = member_casual, y = duration, fill = rideable_type)) +
+  geom_boxplot() +
+  facet_grid(. ~ Month)
+```
+
+Classic bikes generally have a wider distribution of ride durations compared to electric bikes. Casual riders show more variability in their ride durations.
