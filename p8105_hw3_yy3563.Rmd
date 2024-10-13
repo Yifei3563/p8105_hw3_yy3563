@@ -11,6 +11,7 @@ library(tidyverse)
 library(patchwork)
 library(haven)
 library(ggplot2)
+library(readxl)
 ```
 
 
@@ -108,4 +109,41 @@ ny_noaa_clean |>
   geom_boxplot()
 ```
 
+
+
+## Problem 2
+
+Import the two datasets.
+
+```{r}
+demographic = 
+  read_csv("data/nhanes_covar.csv", skip = 4) |> 
+  janitor::clean_names()
+```
+
+```{r}
+accel = read_csv("data/nhanes_accel.csv") |> 
+  janitor::clean_names()
+```
+
+Merge two datasets.
+
+```{r}
+final_df = left_join(demographic, accel, by = "seqn")
+```
+
+organize the data
+
+```{r}
+final_df = final_df |> 
+  filter(age >= 21) |> 
+  drop_na(sex, age, bmi, education) |> 
+  mutate(
+    sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female")),
+    education = factor(education, 
+                       levels = c(1, 2, 3), 
+                       labels = c("less than high school", "high school equivalent", "more than high school")),
+    education = fct_relevel(education, "less than high school", "high school equivalent", "more than high school")
+  )  
+```
 
