@@ -168,4 +168,27 @@ final_df |>
    theme_minimal()
 ```
 
+create total activity variable
+
+```{r}
+final_df$total_activity <- rowSums(final_df %>% select(starts_with("min")), na.rm = TRUE)
+```
+
+plot total activity
+```{r}
+final_df |> 
+  ggplot(aes(x = age, y = total_activity, color = sex)) +
+  geom_point() +
+  geom_smooth() +
+  facet_grid(. ~ education) +
+  labs(
+    title = "Total Activity vs Age, Comparing Men and Women across Education Levels",
+    x = "age",
+    y = "total activity",
+    color = "sex"
+  ) 
+```
+
+Total activity tends to decrease with age across all education levels. Higher education levels are associated with less steep declines in activity with age. Women generally have higher total activity levels compared to men in younger and middle-age. 
+
 
