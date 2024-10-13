@@ -147,3 +147,25 @@ final_df = final_df |>
   )  
 ```
 
+men and women
+
+```{r}
+final_df |> 
+  group_by(sex, education) |> 
+  summarize(n_obs = n()) |> 
+  knitr::kable()
+
+final_df |> 
+  ggplot(aes(x = age, fill = sex)) +
+  geom_density(alpha = 0.3) + 
+  facet_grid(. ~ education) +
+  labs(
+    title = "Age Distributions for Men and Women by Education Category",
+    x = "age",
+    y = "density",
+    fill = "sex"
+  ) +
+   theme_minimal()
+```
+
+
