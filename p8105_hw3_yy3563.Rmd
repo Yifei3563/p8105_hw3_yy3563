@@ -283,7 +283,8 @@ citi_bike |>
   ) |> 
   ggplot(aes(x = Month, y = duration, fill = weekdays)) +
   geom_boxplot() +
-  facet_grid(. ~ Year)
+  facet_grid(. ~ Year) +
+  labs(title="Boxplot of duration by year, month and weekdays")
 ```
 
 July in both 2020 and 2024 has much more variability compared to Jun, showing that the warm summer have a greater variety of ride durations. Weekdays show a relatively consistent median ride duration across both years and months.
@@ -300,7 +301,8 @@ citi_bike |>
   ) |> 
   ggplot(aes(x = member_casual, y = duration, fill = rideable_type)) +
   geom_boxplot() +
-  facet_grid(. ~ Month)
+  facet_grid(. ~ Month) +
+  labs(title="Boxplot of duration by member casual, bike type and month")
 ```
 
 Classic bikes generally have a wider distribution of ride durations compared to electric bikes. Casual riders show more variability in their ride durations.
